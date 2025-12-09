@@ -42,4 +42,17 @@ def dashboard_prepress(request):
 
 @login_required
 def dashboard_produksi(request):
-    return render(request, 'dashboard_produksi.html')
+    # Cek: Hanya user 'Produksi' atau 'Superuser' yang boleh masuk
+    # Kita gunakan filter groups__name agar lebih fleksibel
+    if not (request.user.is_superuser or request.user.groups.filter(name='Produksi').exists()):
+        return redirect('login')
+    
+    # Ambil data: Urutkan berdasarkan ID (Terbaru)
+    # Kita ambil semua order agar terlihat di tabel
+    orders = Order.objects.select_related('spesifikasi', 'workflow').all().order_by('-id')
+    
+    context = {
+        'orders': orders,
+        'user': request.user
+    }
+    return render(request, 'dashboard_produksi.html', context)
