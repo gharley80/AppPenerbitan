@@ -1,3 +1,6 @@
+from django.shortcuts import render, redirect, get_object_or_404
+
+from django.contrib.auth import logout # <--- TAMBAHAN PENTING
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import views as auth_views
@@ -86,3 +89,7 @@ def dashboard_produksi(request):
         'user': request.user
     }
     return render(request, 'dashboard_produksi.html', context)
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')

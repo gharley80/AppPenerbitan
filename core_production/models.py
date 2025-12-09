@@ -1,7 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.core.exceptions import ObjectDoesNotExist
 
-# --- Status Choices (Pilihan Status) ---
+# --- Status Choices ---
 STATUS_GLOBAL = [
     ('BARU', 'Order Baru'),
     ('PROSES', 'Dalam Pengerjaan'),
@@ -35,35 +38,53 @@ class Order(models.Model):
     def __str__(self):
         return f"{self.nomor_order} - {self.judul_buku}"
 
-# --- 2. Tabel Spesifikasi (Detail Teknis) ---
+# --- 2. Tabel Spesifikasi ---
 class BookSpecification(models.Model):
-    # Relasi OneToOne: 1 Order hanya punya 1 Spesifikasi
     order = models.OneToOneField(Order, on_delete=models.CASCADE, related_name='spesifikasi')
     
-    ukuran_buku = models.CharField(max_length=50)
-    jenis_sampul = models.CharField(max_length=50, choices=[('SOFT', 'Softcover'), ('HARD', 'Hardcover')])
-    laminasi = models.CharField(max_length=50, choices=[('DOFF', 'Doff'), ('GLOSSY', 'Glossy')])
+    # Kita beri default agar Signal bisa membuatnya tanpa error
+    ukuran_buku = models.CharField(max_length=50, default='A5') 
+    jenis_sampul = models.CharField(max_length=50, choices=[('SOFT', 'Softcover'), ('HARD', 'Hardcover')], default='SOFT')
+    laminasi = models.CharField(max_length=50, choices=[('DOFF', 'Doff'), ('GLOSSY', 'Glossy')], default='DOFF')
     catatan_teknis = models.TextField(blank=True, help_text="Instruksi khusus untuk produksi")
 
     def __str__(self):
         return f"Spek: {self.order.nomor_order}"
 
-# --- 3. Tabel Workflow (Tracking Progress) ---
+# --- 3. Tabel Workflow ---
 class ProductionWorkflow(models.Model):
-    # Relasi OneToOne: 1 Order hanya punya 1 Workflow
     order = models.OneToOneField(Order, on_delete=models.CASCADE, related_name='workflow')
     
-    # --- Divisi Pre-Press (Layout & Desain) ---
+    # Pre-Press
     status_layout = models.CharField(max_length=10, choices=STATUS_PREPRESS, default='PENDING')
     file_layout_final = models.FileField(upload_to='uploads/layout/', blank=True, null=True)
     
     status_desain = models.CharField(max_length=10, choices=STATUS_PREPRESS, default='PENDING')
     file_cover_final = models.FileField(upload_to='uploads/cover/', blank=True, null=True)
     
-    # --- Divisi Produksi (Fisik) ---
+    # Produksi
     status_cetak = models.CharField(max_length=10, choices=STATUS_PRODUKSI, default='ANTRI')
     status_binding = models.CharField(max_length=10, choices=STATUS_PRODUKSI, default='ANTRI')
     status_finishing = models.CharField(max_length=10, choices=STATUS_PRODUKSI, default='ANTRI')
 
     def __str__(self):
         return f"Workflow: {self.order.nomor_order}"
+
+# =========================================================
+# LOGIKA "SAFE SIGNAL" (SOLUSI INTI)
+# =========================================================
+@receiver(post_save, sender=Order)
+def create_related_tables(sender, instance, created, **kwargs):
+    # Logika: "Cek dulu, kalau belum ada baru buat"
+    
+    # 1. Handle Spesifikasi
+    try:
+        instance.spesifikasi
+    except ObjectDoesNotExist:
+        BookSpecification.objects.create(order=instance)
+
+    # 2. Handle Workflow
+    try:
+        instance.workflow
+    except ObjectDoesNotExist:
+        ProductionWorkflow.objects.create(order=instance)
