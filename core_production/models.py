@@ -131,3 +131,12 @@ def create_user_profile(sender, instance, created, **kwargs):
         instance.profile
     except ObjectDoesNotExist:
         UserProfile.objects.create(user=instance)
+
+# --- 4. Tabel Log Aktivitas (Audit Trail) ---
+class SystemLog(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='logs')
+    aktivitas = models.CharField(max_length=255) # Contoh: "Menginput Order PO-001"
+    waktu = models.DateTimeField(auto_now_add=True) # Otomatis mencatat waktu sekarang
+
+    def __str__(self):
+        return f"{self.user.username} - {self.aktivitas}"

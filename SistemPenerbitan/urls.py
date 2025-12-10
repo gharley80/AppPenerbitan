@@ -16,7 +16,8 @@ from core_production.views import (
     update_prepress,        # Fitur Update Desainer
     update_production_status, # Fitur Update Operator
     manage_users,           # Fitur Kelola User
-    edit_user               # Fitur Edit User
+    edit_user,              # Fitur Edit User
+    view_system_logs        # Fitur Lihat Log Sistem
 )
 
 urlpatterns = [
@@ -44,6 +45,8 @@ urlpatterns = [
     # URL MANAJEMEN USER
     path('users/', manage_users, name='manage_users'),
     path('users/edit/<int:user_id>/', edit_user, name='edit_user'),
+
+    path('logs/', view_system_logs, name='system_logs'),
 ]
 
 # Konfigurasi agar file upload (Media) bisa dibuka di browser

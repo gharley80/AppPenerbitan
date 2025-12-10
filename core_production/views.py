@@ -1,5 +1,5 @@
 from .forms import PrePressForm, StaffSignUpForm, OrderEditForm, BookSpecEditForm, OrderCreateForm, UserEditForm, UserProfileForm
-from .models import Order, UserProfile, ProductionWorkflow # <--- Pastikan ProductionWorkflow di-import
+from .models import Order, UserProfile, ProductionWorkflow, SystemLog # <--- Pastikan ProductionWorkflow di-import
 from django.utils import timezone # Tambahan untuk logika warna deadline
 from django.shortcuts import render, redirect, get_object_or_404
 from django.shortcuts import render, redirect
@@ -68,6 +68,14 @@ def update_prepress(request, workflow_id):
         form = PrePressForm(request.POST, request.FILES, instance=workflow)
         if form.is_valid():
             form.save()
+
+            # --- TAMBAHKAN CATATAN INI ---
+            SystemLog.objects.create(
+                user=request.user,
+                aktivitas=f"Update Progres Desain: {workflow.order.judul_buku}"
+            )
+            # -----------------------------
+
             return redirect('dash_prepress') # Kembali ke dashboard setelah save
     else:
         # Jika baru buka halaman, tampilkan isian yang sekarang
@@ -123,6 +131,11 @@ def update_production_status(request, workflow_id):
                 workflow.order.save()
         
         workflow.save()
+
+        # --- TAMBAHKAN CATATAN INI (Taruh sebelum return) ---
+        pesan_log = f"Produksi ({process_type.upper()}) -> {new_status}: {workflow.order.judul_buku}"
+        SystemLog.objects.create(user=request.user, aktivitas=pesan_log)
+        # -----------------------------
         
     return redirect('dash_produksi')
 
@@ -168,6 +181,14 @@ def edit_order_detail(request, order_id):
         if form_order.is_valid() and form_spec.is_valid():
             form_order.save()
             form_spec.save()
+
+            # --- TAMBAHKAN CATATAN INI ---
+            SystemLog.objects.create(
+                user=request.user,
+                aktivitas=f"Update Detail & Spek Order: {order.nomor_order}"
+            )
+            # -----------------------------
+
             return redirect('dash_admin') # Kembali ke dashboard setelah save
     else:
         # Isi form dengan data yang sudah ada
@@ -191,6 +212,14 @@ def create_order(request):
         form = OrderCreateForm(request.POST)
         if form.is_valid():
             order = form.save()
+
+            # --- TAMBAHKAN CATATAN INI ---
+            SystemLog.objects.create(
+                user=request.user,
+                aktivitas=f"Input Order Baru: {order.nomor_order} ({order.judul_buku})"
+            )
+            # -----------------------------
+
             # PENTING: Sinyal otomatis sudah membuatkan Spesifikasi & Workflow kosong.
             # Kita langsung lempar user ke halaman EDIT untuk melengkapi data tersebut.
             return redirect('edit_order', order_id=order.id)
@@ -240,3 +269,14 @@ def edit_user(request, user_id):
         'user_obj': user_obj
     }
     return render(request, 'user_edit.html', context)
+
+@login_required
+def view_system_logs(request):
+    # Hanya Superuser yang boleh lihat log
+    if not request.user.is_superuser:
+        return redirect('dash_admin')
+    
+    # Ambil 100 log terakhir, urutkan dari yang paling baru
+    logs = SystemLog.objects.select_related('user').all().order_by('-waktu')[:100]
+    
+    return render(request, 'system_log.html', {'logs': logs})
