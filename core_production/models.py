@@ -105,3 +105,29 @@ def create_related_tables(sender, instance, created, **kwargs):
         instance.workflow
     except ObjectDoesNotExist:
         ProductionWorkflow.objects.create(order=instance)
+
+# --- TAMBAHAN BARU: MODEL PROFIL USER ---
+class UserProfile(models.Model):
+    GENDER_CHOICES = [
+        ('L', 'Laki-laki'),
+        ('P', 'Perempuan'),
+    ]
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    
+    nama_tampilan = models.CharField(max_length=100, blank=True, help_text="Nama yang akan muncul di dashboard")
+    jenis_kelamin = models.CharField(max_length=1, choices=GENDER_CHOICES, blank=True, null=True)
+    tanggal_lahir = models.DateField(null=True, blank=True)
+    foto_profil = models.ImageField(upload_to='uploads/profiles/', blank=True, null=True)
+
+    def __str__(self):
+        return f"Profile: {self.user.username}"
+
+# --- UPDATE SIGNAL: BUAT PROFIL OTOMATIS SAAT USER DIBUAT ---
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    # Logika Safe Signal (Cek dulu sebelum buat)
+    try:
+        instance.profile
+    except ObjectDoesNotExist:
+        UserProfile.objects.create(user=instance)

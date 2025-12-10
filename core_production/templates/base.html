@@ -33,6 +33,9 @@
                     <a href="{% url 'signup' %}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-slate-700 hover:text-white text-yellow-400">
                         👤 Tambah Staff Baru
                     </a>
+                    <a href="{% url 'manage_users' %}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-slate-700 hover:text-white text-cyan-200">
+                        👥 Manajemen User
+                    </a>
                     {% endif %}
                 {% endif %}
 
@@ -49,17 +52,34 @@
                 {% endif %}
             </nav>
 
-            <div class="p-4 border-t border-slate-700">
+            <div class="p-4 border-t border-slate-800 bg-slate-900/50">
                 <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center font-bold">
-                        {{ user.username|slice:":1"|upper }}
+                    
+                    <div class="flex-shrink-0">
+                        {% if user.profile.foto_profil %}
+                            <img src="{{ user.profile.foto_profil.url }}" class="w-10 h-10 rounded-full object-cover border-2 border-slate-600 shadow-sm">
+                        {% else %}
+                            <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center font-bold text-white text-sm shadow-sm">
+                                {{ user.username|slice:":1"|upper }}
+                            </div>
+                        {% endif %}
                     </div>
-                    <div>
-                        <p class="text-sm font-semibold">{{ user.username }}</p>
-                        <a href="{% url 'logout' %}" class="text-xs text-red-400 hover:text-red-300">Logout</a>
+                    
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-medium text-white truncate">
+                            {{ user.profile.nama_tampilan|default:user.username }}
+                        </p>
+                        <a href="{% url 'logout' %}" class="text-xs text-red-400 hover:text-red-300 font-semibold flex items-center gap-1 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd" />
+                            </svg>
+                            Logout
+                        </a>
                     </div>
+
                 </div>
             </div>
+            
         </aside>
 
         <div class="flex-1 flex flex-col overflow-hidden">

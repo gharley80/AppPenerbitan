@@ -1,5 +1,5 @@
-from .models import Order, ProductionWorkflow # <--- Pastikan ProductionWorkflow di-import
-from .forms import PrePressForm, StaffSignUpForm, OrderEditForm, BookSpecEditForm, OrderCreateForm
+from .forms import PrePressForm, StaffSignUpForm, OrderEditForm, BookSpecEditForm, OrderCreateForm, UserEditForm, UserProfileForm
+from .models import Order, UserProfile, ProductionWorkflow # <--- Pastikan ProductionWorkflow di-import
 from django.utils import timezone # Tambahan untuk logika warna deadline
 from django.shortcuts import render, redirect, get_object_or_404
 from django.shortcuts import render, redirect
@@ -8,6 +8,7 @@ from django.contrib.auth import logout
 from django.contrib.auth import login
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 # --- 1. Custom Login View ---
 class CustomLoginView(auth_views.LoginView):
@@ -197,3 +198,45 @@ def create_order(request):
         form = OrderCreateForm()
 
     return render(request, 'create_order.html', {'form': form})
+
+# 1. View Daftar User
+@login_required
+def manage_users(request):
+    # HANYA SUPERUSER
+    if not request.user.is_superuser:
+        return redirect('dash_admin')
+
+    users = User.objects.all().order_by('id')
+    return render(request, 'user_list.html', {'users': users})
+
+# 2. View Edit User
+@login_required
+def edit_user(request, user_id):
+    if not request.user.is_superuser:
+        return redirect('dash_admin')
+
+    user_obj = get_object_or_404(User, id=user_id)
+    
+    # Pastikan profil ada (Safe Guard untuk user lama)
+    if not hasattr(user_obj, 'profile'):
+        UserProfile.objects.create(user=user_obj)
+
+    if request.method == 'POST':
+        form_user = UserEditForm(request.POST, instance=user_obj)
+        # Perhatikan request.FILES untuk upload foto
+        form_profile = UserProfileForm(request.POST, request.FILES, instance=user_obj.profile)
+        
+        if form_user.is_valid() and form_profile.is_valid():
+            form_user.save()
+            form_profile.save()
+            return redirect('manage_users')
+    else:
+        form_user = UserEditForm(instance=user_obj)
+        form_profile = UserProfileForm(instance=user_obj.profile)
+
+    context = {
+        'form_user': form_user,
+        'form_profile': form_profile, # Kirim form profil ke template
+        'user_obj': user_obj
+    }
+    return render(request, 'user_edit.html', context)

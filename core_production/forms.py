@@ -1,5 +1,5 @@
 from django import forms
-from .models import ProductionWorkflow, Order, BookSpecification
+from .models import ProductionWorkflow, Order, BookSpecification, UserProfile
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User, Group
 
@@ -90,3 +90,47 @@ class OrderCreateForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs['class'] = 'w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition shadow-sm'
+
+# Form untuk Edit Data User (Khusus Admin)
+class UserEditForm(forms.ModelForm):
+    # Field khusus untuk memilih Group/Divisi
+    groups = forms.ModelMultipleChoiceField(
+        queryset=Group.objects.all(),
+        widget=forms.SelectMultiple(attrs={'class': 'h-24'}), # Tampilan list select
+        label="Divisi / Jabatan"
+    )
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'is_active', 'groups']
+        help_texts = {
+            'username': '', # Hapus help text bawaan yang panjang
+            'is_active': 'Hilangkan centang untuk memblokir akses login user ini.'
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Styling Tailwind
+        for field_name, field in self.fields.items():
+            # Checkbox butuh style beda
+            if field_name == 'is_active':
+                field.widget.attrs['class'] = 'w-5 h-5 text-blue-600 rounded focus:ring-blue-500 border-gray-300'
+            else:
+                field.widget.attrs['class'] = 'w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm'
+
+# Form untuk Edit Profil Tambahan
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['nama_tampilan', 'jenis_kelamin', 'tanggal_lahir', 'foto_profil']
+        widgets = {
+            'tanggal_lahir': forms.DateInput(attrs={'type': 'date'}),
+            'jenis_kelamin': forms.Select(attrs={'class': 'w-full px-4 py-2 border rounded-lg'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            # Styling Tailwind standar
+            if field_name != 'foto_profil': # File input punya style beda dikit biasanya
+                field.widget.attrs['class'] = 'w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm'

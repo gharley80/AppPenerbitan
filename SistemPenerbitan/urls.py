@@ -1,40 +1,51 @@
 from django.contrib import admin
 from django.urls import path
-from django.conf import settings # <--- Tambahan
-from django.conf.urls.static import static # <--- Tambahan
+from django.conf import settings
+from django.conf.urls.static import static
+
+# Import SEMUA views yang sudah kita buat
 from core_production.views import (
     CustomLoginView, 
+    logout_view,
+    signup_view,            # Fitur Tambah Staff
     dashboard_admin, 
     dashboard_prepress, 
     dashboard_produksi,
-    update_prepress,
-    logout_view,
-    update_production_status,
-    signup_view,
-    edit_order_detail,
-    create_order
+    create_order,           # Fitur Input Order Baru
+    edit_order_detail,      # Fitur Edit Detail
+    update_prepress,        # Fitur Update Desainer
+    update_production_status, # Fitur Update Operator
+    manage_users,           # Fitur Kelola User
+    edit_user               # Fitur Edit User
 )
 
 urlpatterns = [
+    # 1. Admin Django Bawaan
     path('admin/', admin.site.urls),
+    
+    # 2. Otentikasi (Login/Logout/Signup)
     path('', CustomLoginView.as_view(), name='login'),
     path('logout/', logout_view, name='logout'),
-
-    path('dashboard/admin/', dashboard_admin, name='dash_admin'),
-    path('dashboard/pre-press/', dashboard_prepress, name='dash_prepress'),
-    path('dashboard/pre-press/update/<int:workflow_id>/', update_prepress, name='update_prepress'),
-
-    path('dashboard/produksi/', dashboard_produksi, name='dash_produksi'),
-    # URL Baru untuk Operator klik tombol update
-    path('dashboard/produksi/update/<int:workflow_id>/', update_production_status, name='update_produksi'),
-
     path('signup/', signup_view, name='signup'),
 
-    path('order/create/', create_order, name='create_order'),
+    # 3. Dashboard Admin & Manajemen Order
+    path('dashboard/admin/', dashboard_admin, name='dash_admin'),
+    path('order/create/', create_order, name='create_order'),          # URL Create
+    path('order/edit/<int:order_id>/', edit_order_detail, name='edit_order'), # URL Edit
 
-    path('order/edit/<int:order_id>/', edit_order_detail, name='edit_order'),
+    # 4. Dashboard Pre-Press (Desainer)
+    path('dashboard/pre-press/', dashboard_prepress, name='dash_prepress'),
+    path('dashboard/pre-press/update/<int:workflow_id>/', update_prepress, name='update_prepress'),
+    
+    # 5. Dashboard Produksi (Operator)
+    path('dashboard/produksi/', dashboard_produksi, name='dash_produksi'),
+    path('dashboard/produksi/update/<int:workflow_id>/', update_production_status, name='update_produksi'),
+
+    # URL MANAJEMEN USER
+    path('users/', manage_users, name='manage_users'),
+    path('users/edit/<int:user_id>/', edit_user, name='edit_user'),
 ]
 
-# Tambahkan baris ajaib ini agar file upload bisa dibuka di browser
+# Konfigurasi agar file upload (Media) bisa dibuka di browser
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
